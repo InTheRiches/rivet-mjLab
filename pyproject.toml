@@ -6,12 +6,13 @@ readme = "README.md"
 authors = [
     { name = "Louis Le Lay", email = "louislelay@pal-robotics.com" }
 ]
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.11,<3.14"
 dependencies = [
     "mjlab",
-"onnx>=1.20.1",
+    "onnx>=1.20.1",
     "onnxruntime>=1.24.1",
     "ruff>=0.14.0",
+    "urdf2mjcf>=0.2.39",
 ]
 
 [project.scripts]

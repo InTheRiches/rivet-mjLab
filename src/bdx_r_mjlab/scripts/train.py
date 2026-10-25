@@ -33,7 +33,7 @@ class TrainConfig:
   enable_nan_guard: bool = False
   torchrunx_log_dir: str | None = None
   wandb_run_path: str | None = None
-  gpu_ids: list[int] | Literal["all"] | None = field(default_factory=lambda: [0])
+  gpu_ids: list[int] | Literal["all"] | None = None
 
   @staticmethod
   def from_task(task_id: str) -> "TrainConfig":
@@ -190,15 +190,20 @@ def launch_training(task_id: str, args: TrainConfig | None = None):
     log_dir_name += f"_{args.agent.run_name}"
   log_dir = log_root_path / log_dir_name
 
-  # Select GPUs based on CUDA_VISIBLE_DEVICES and user specification.
-  selected_gpus, num_gpus = select_gpus(args.gpu_ids)
+  # Apple Silicon and other non-CUDA systems must use CPU mode explicitly.
+  import torch
+
+  gpu_ids = args.gpu_ids
+  if gpu_ids is not None and torch.cuda.device_count() == 0:
+    gpu_ids = None
+  selected_gpus, num_gpus = select_gpus(gpu_ids)
 
   # Set environment variables for all modes.
   if selected_gpus is None:
     os.environ["CUDA_VISIBLE_DEVICES"] = ""
   else:
     os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, selected_gpus))
-  os.environ["MUJOCO_GL"] = "egl"
+  os.environ["MUJOCO_GL"] = "egl" if num_gpus > 0 else "glfw"
 
   if num_gpus <= 1:
     # CPU or single GPU: run directly without torchrunx.

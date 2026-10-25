@@ -9,7 +9,6 @@ from mjlab.actuator import BuiltinPositionActuatorCfg, IdealPdActuatorCfg
 from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
 from mjlab.utils.actuator import (
   ElectricActuator,
-  reflected_inertia_from_two_stage_planetary,
 )
 from mjlab.utils.spec_config import CollisionCfg
 
@@ -34,14 +33,17 @@ def get_spec() -> mujoco.MjSpec:
 # Armature values from chirp system identification.
 ARMATURE_ROBSTRIDE_03 = 0.06    # chirp ID tuned (was 0.02)
 ARMATURE_ROBSTRIDE_02 = 0.0142  # chirp ID tuned (was 0.0042)
+ARMATURE_ROBSTRIDE_06 = 0.014985 # RAW, not chirp ID tuned
 
 # KP/KD hardcoded to match real robot MIT control law.
-# These are decoupled from armature — previously they were derived via
-# KP = armature * (10*2π)², but that formula used the wrong armature values.
+# These are decoupled from armature
+# KP = armature * (10*2π)²
 KP_ROBSTRIDE_03 = 78.957
 KD_ROBSTRIDE_03 = 5.027
 KP_ROBSTRIDE_02 = 16.581
 KD_ROBSTRIDE_02 = 1.056
+KP_ROBSTRIDE_06 = 59.16
+KD_ROBSTRIDE_06 = 1.88 
 
 ACTUATOR_ROBSTRIDE_03 = ElectricActuator(
   reflected_inertia=ARMATURE_ROBSTRIDE_03,
@@ -53,14 +55,27 @@ ACTUATOR_ROBSTRIDE_02 = ElectricActuator(
   velocity_limit=37.699,
   effort_limit=10.9,
 )
-
+ACTUATOR_ROBSTRIDE_06 = ElectricActuator(
+   reflected_inertia=ARMATURE_ROBSTRIDE_06,
+   velocity_limit=12.00,
+   effort_limit=22.0,
+)
 
 BDXR_ACTUATOR_ROBSTRIDE_03 = BuiltinPositionActuatorCfg(
-    target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee"),
+    target_names_expr=(".*_Hip_Pitch", ".*_Knee"),
     stiffness=KP_ROBSTRIDE_03,
     damping=KD_ROBSTRIDE_03,
     effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
     armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
+    delay_min_lag=3,
+    delay_max_lag=3,
+)
+BDXR_ACTUATOR_ROBSTRIDE_06 = BuiltinPositionActuatorCfg(
+    target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll"),
+    stiffness=KP_ROBSTRIDE_06,
+    damping=KD_ROBSTRIDE_06,
+    effort_limit=ACTUATOR_ROBSTRIDE_06.effort_limit,
+    armature=ACTUATOR_ROBSTRIDE_06.reflected_inertia,
     delay_min_lag=3,
     delay_max_lag=3,
 )
@@ -112,8 +127,10 @@ KNEES_BENT_KEYFRAME = EntityCfg.InitialStateCfg(
 # are given condim=3.
 FULL_COLLISION = CollisionCfg(
   geom_names_expr=(".*_collision",),
+  contype=1,
+  conaffinity=1,
   condim={r"^(left|right)_foot_collision[1-7]$": 3, ".*_collision": 1},
-  priority={r"^(left|right)_foot_collision[1-7]$": 1},
+  priority={r"^(left|right)_foot_collision[1-7]$": 1, ".*": 0},
   friction={r"^(left|right)_foot_collision[1-7]$": (0.6,)},
 )
 
@@ -122,7 +139,7 @@ FULL_COLLISION_WITHOUT_SELF = CollisionCfg(
   contype=0,
   conaffinity=1,
   condim={r"^(left|right)_foot_collision[1-7]$": 3, ".*_collision": 1},
-  priority={r"^(left|right)_foot_collision[1-7]$": 1},
+  priority={r"^(left|right)_foot_collision[1-7]$": 1, ".*": 0},
   friction={r"^(left|right)_foot_collision[1-7]$": (0.6,)},
 )
 

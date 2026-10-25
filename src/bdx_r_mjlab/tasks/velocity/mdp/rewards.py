@@ -416,3 +416,16 @@ class variable_posture:
     error_squared = torch.square(current_joint_pos - desired_joint_pos)
 
     return torch.exp(-torch.mean(error_squared / (std**2), dim=1))
+
+
+def default_joint_pos_error(
+  env: ManagerBasedRlEnv,
+  asset_cfg: SceneEntityCfg = _DEFAULT_ASSET_CFG,
+) -> torch.Tensor:
+  """Penalize mean squared deviation from the configured default joint pose."""
+  asset: Entity = env.scene[asset_cfg.name]
+  default_joint_pos = asset.data.default_joint_pos
+  assert default_joint_pos is not None
+  joint_pos = asset.data.joint_pos[:, asset_cfg.joint_ids]
+  target = default_joint_pos[:, asset_cfg.joint_ids]
+  return torch.mean(torch.square(joint_pos - target), dim=1)

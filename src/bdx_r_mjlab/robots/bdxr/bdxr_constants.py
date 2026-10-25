@@ -35,6 +35,7 @@ def get_spec() -> mujoco.MjSpec:
 ARMATURE_ROBSTRIDE_03 = 0.06    # chirp ID tuned
 ARMATURE_ROBSTRIDE_02 = 0.0142  # chirp ID tuned
 ARMATURE_ROBSTRIDE_05 = 0.0007  # TODO: run chirp ID for head motors
+ARMATURE_ROBSTRIDE_06 = 0.014985 # TODO: run chirp ID for RS06 (currently using RAW, not chirp ID tuned)
 
 # KP/KD from chirp ID for RS03 and RS02 (same as legs).
 # RS05 still uses the formula-based values until chirp ID is done.
@@ -42,6 +43,8 @@ KP_ROBSTRIDE_03 = 78.957
 KD_ROBSTRIDE_03 = 5.027
 KP_ROBSTRIDE_02 = 16.581
 KD_ROBSTRIDE_02 = 1.056
+KP_ROBSTRIDE_06 = 59.16
+KD_ROBSTRIDE_06 = 1.88 
 
 NATURAL_FREQ = 10 * 2.0 * 3.1415926535  # 10Hz
 DAMPING_RATIO = 2.0
@@ -62,6 +65,11 @@ ACTUATOR_ROBSTRIDE_05 = ElectricActuator(
   reflected_inertia=ARMATURE_ROBSTRIDE_05,
   velocity_limit=45,
   effort_limit=4.2,
+)
+ACTUATOR_ROBSTRIDE_06 = ElectricActuator(
+   reflected_inertia=ARMATURE_ROBSTRIDE_06,
+   velocity_limit=12.00,
+   effort_limit=22.0,
 )
 
 BDXR_ACTUATOR_ROBSTRIDE_03 = BuiltinPositionActuatorCfg(
@@ -90,6 +98,15 @@ BDXR_ACTUATOR_ROBSTRIDE_05 = BuiltinPositionActuatorCfg(
   armature=ACTUATOR_ROBSTRIDE_05.reflected_inertia,
   delay_min_lag=3,
   delay_max_lag=3,
+)
+BDXR_ACTUATOR_ROBSTRIDE_06 = BuiltinPositionActuatorCfg(
+    target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll"),
+    stiffness=KP_ROBSTRIDE_06,
+    damping=KD_ROBSTRIDE_06,
+    effort_limit=ACTUATOR_ROBSTRIDE_06.effort_limit,
+    armature=ACTUATOR_ROBSTRIDE_06.reflected_inertia,
+    delay_min_lag=3,
+    delay_max_lag=3,
 )
 
 ##
@@ -138,8 +155,10 @@ KNEES_BENT_KEYFRAME = EntityCfg.InitialStateCfg(
 # are given condim=3.
 FULL_COLLISION = CollisionCfg(
   geom_names_expr=(".*_collision",),
+  contype=1,
+  conaffinity=1,
   condim={r"^(left|right)_foot_collision[1-7]$": 3, ".*_collision": 1},
-  priority={r"^(left|right)_foot_collision[1-7]$": 1},
+  priority={r"^(left|right)_foot_collision[1-7]$": 1, ".*": 0},
   friction={r"^(left|right)_foot_collision[1-7]$": (0.6,)},
 )
 
@@ -148,7 +167,7 @@ FULL_COLLISION_WITHOUT_SELF = CollisionCfg(
   contype=0,
   conaffinity=1,
   condim={r"^(left|right)_foot_collision[1-7]$": 3, ".*_collision": 1},
-  priority={r"^(left|right)_foot_collision[1-7]$": 1},
+  priority={r"^(left|right)_foot_collision[1-7]$": 1, ".*": 0},
   friction={r"^(left|right)_foot_collision[1-7]$": (0.6,)},
 )
 

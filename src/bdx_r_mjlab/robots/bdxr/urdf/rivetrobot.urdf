@@ -1,0 +1,471 @@
+<?xml version="1.0"?>
+<robot name="rivetrobot">
+
+  <!-- Materials -->
+  <material name="RS06">
+    <color rgba="0.980 0.714 0.004 1.0"/>
+  </material>
+  <material name="Steel">
+    <color rgba="0.196 0.196 0.196 1.0"/>
+  </material>
+  <material name="Aluminum_6061">
+    <color rgba="0.961 0.961 0.965 1.0"/>
+  </material>
+  <material name="Foot">
+    <color rgba="0.314 0.314 0.314 1.0"/>
+  </material>
+  <material name="RS02">
+    <color rgba="0.537 0.537 0.537 1.0"/>
+  </material>
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-0.132711 -0.000087 0.013762" rpy="0 0 0"/>
+      <mass value="12.524044"/>
+      <inertia ixx="5.520864e-02" ixy="-4.161284e-05" ixz="-5.509147e-03"
+               iyy="1.169475e-01" iyz="-1.280153e-05" izz="1.180382e-01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/base_link.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="Steel"/>
+    </visual>
+    <collision>
+      <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/base_link_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="Yaw_R">
+    <inertial>
+      <origin xyz="-0.006105 -0.012631 -0.053523" rpy="0 0 0"/>
+      <mass value="0.631727"/>
+      <inertia ixx="5.220905e-04" ixy="4.624520e-07" ixz="-3.393596e-06"
+               iyy="3.834018e-04" iyz="-2.135784e-06" izz="3.746279e-04"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.103104 0.050000 -0.011836" rpy="0.000000 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/Yaw_R.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="RS06"/>
+    </visual>
+    <collision>
+      <origin xyz="0.103104 0.050000 -0.011836" rpy="0.000000 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/Yaw_R_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="Yaw_L">
+    <inertial>
+      <origin xyz="-0.006105 0.012232 -0.053523" rpy="0 0 0"/>
+      <mass value="0.631727"/>
+      <inertia ixx="5.220559e-04" ixy="1.046129e-06" ixz="-3.393596e-06"
+               iyy="3.834018e-04" iyz="1.945483e-06" izz="3.745933e-04"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.103104 -0.050000 -0.011836" rpy="0.000000 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/Yaw_L.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="RS06"/>
+    </visual>
+    <collision>
+      <origin xyz="0.103104 -0.050000 -0.011836" rpy="0.000000 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/Yaw_L_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="imu">
+    <inertial>
+      <origin xyz="-0.000111 -0.000161 -0.004072" rpy="0 0 0"/>
+      <mass value="0.227379"/>
+      <inertia ixx="3.181533e-05" ixy="1.204393e-07" ixz="-2.547203e-07"
+               iyy="1.625286e-04" iyz="8.916707e-08" izz="1.552163e-04"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/UPPER_HOUS_ASM_1_ASM_2_ASM_1_ASM/imu.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="Steel"/>
+    </visual>
+    <collision>
+      <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/UPPER_HOUS_ASM_1_ASM_2_ASM_1_ASM/imu_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="arm_right">
+    <inertial>
+      <origin xyz="-0.029281 -0.000121 -0.002212" rpy="0 0 0"/>
+      <mass value="0.099578"/>
+      <inertia ixx="2.392334e-05" ixy="-4.319345e-07" ixz="1.219154e-05"
+               iyy="9.735478e-05" iyz="2.497680e-07" izz="1.054438e-04"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.055661 -0.042448 -0.085104" rpy="1.570796 1.570796 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/arm_right.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="Aluminum_6061"/>
+    </visual>
+    <collision>
+      <origin xyz="0.055661 -0.042448 -0.085104" rpy="1.570796 1.570796 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/arm_right_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="arm_left">
+    <inertial>
+      <origin xyz="0.029282 -0.000121 -0.002212" rpy="0 0 0"/>
+      <mass value="0.099578"/>
+      <inertia ixx="2.392344e-05" ixy="4.318760e-07" ixz="-1.219163e-05"
+               iyy="9.735515e-05" iyz="2.497505e-07" izz="1.054441e-04"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.055661 -0.042448 -0.085104" rpy="-1.570796 1.570796 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/arm_left.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="Aluminum_6061"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.055661 -0.042448 -0.085104" rpy="-1.570796 1.570796 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/arm_left_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="thigh_right">
+    <inertial>
+      <origin xyz="-0.039031 -0.039274 0.023614" rpy="0 0 0"/>
+      <mass value="1.847482"/>
+      <inertia ixx="4.734522e-03" ixy="-2.825429e-03" ixz="4.772167e-06"
+               iyy="4.691757e-03" iyz="-6.251956e-06" izz="8.222514e-03"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.096867 0.040619 -0.124911" rpy="-1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/thigh_right.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="Aluminum_6061"/>
+    </visual>
+    <collision>
+      <origin xyz="0.096867 0.040619 -0.124911" rpy="-1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/thigh_right_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="thigh_left">
+    <inertial>
+      <origin xyz="-0.039031 0.039274 0.023614" rpy="0 0 0"/>
+      <mass value="1.847482"/>
+      <inertia ixx="4.734527e-03" ixy="2.825446e-03" ixz="4.784500e-06"
+               iyy="4.691792e-03" iyz="6.231478e-06" izz="8.222554e-03"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.096867 -0.040619 -0.124911" rpy="-1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/thigh_left.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="Aluminum_6061"/>
+    </visual>
+    <collision>
+      <origin xyz="0.096867 -0.040619 -0.124911" rpy="-1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/thigh_left_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="shin_right">
+    <inertial>
+      <origin xyz="0.029011 -0.082760 -0.016712" rpy="0 0 0"/>
+      <mass value="0.708393"/>
+      <inertia ixx="2.861626e-03" ixy="9.393024e-04" ixz="9.203748e-05"
+               iyy="6.852746e-04" iyz="-2.478557e-04" izz="3.353418e-03"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.175000 0.119506 -0.124911" rpy="-1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/shin_right.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="RS02"/>
+    </visual>
+    <collision>
+      <origin xyz="0.175000 0.119506 -0.124911" rpy="-1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/shin_right_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="shin_left">
+    <inertial>
+      <origin xyz="0.029011 -0.082760 0.016712" rpy="0 0 0"/>
+      <mass value="0.708394"/>
+      <inertia ixx="2.861628e-03" ixy="9.393034e-04" ixz="-9.203791e-05"
+               iyy="6.852758e-04" iyz="2.478565e-04" izz="3.353421e-03"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.175000 0.119506 0.124911" rpy="1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/shin_left.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="RS02"/>
+    </visual>
+    <collision>
+      <origin xyz="0.175000 0.119506 0.124911" rpy="1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/shin_left_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="foot_right">
+    <inertial>
+      <origin xyz="0.025986 -0.038807 -0.001568" rpy="0 0 0"/>
+      <mass value="0.066062"/>
+      <inertia ixx="5.107256e-05" ixy="6.861592e-06" ixz="5.018784e-06"
+               iyy="1.533255e-04" iyz="-1.150518e-05" izz="1.711682e-04"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.127907 0.248894 -0.125411" rpy="-1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/foot_right.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="Foot"/>
+    </visual>
+    <collision>
+      <origin xyz="0.127907 0.248894 -0.125411" rpy="-1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/foot_right_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="foot_left">
+    <inertial>
+      <origin xyz="0.025986 -0.038807 0.001568" rpy="0 0 0"/>
+      <mass value="0.066062"/>
+      <inertia ixx="5.107256e-05" ixy="6.861592e-06" ixz="-5.018784e-06"
+               iyy="1.533255e-04" iyz="1.150518e-05" izz="1.711682e-04"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.127907 0.248894 0.125411" rpy="1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/foot_left.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="Foot"/>
+    </visual>
+    <collision>
+      <origin xyz="0.127907 0.248894 0.125411" rpy="1.570796 0.000000 0.000000"/>
+      <geometry>
+        <mesh filename="package://rivetrobot_description/meshes/rivetrobot/foot_left_collision.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Right_Hip_Yaw" type="revolute">
+    <parent link="base_link"/>
+    <child link="Yaw_R"/>
+    <origin xyz="-0.103104 -0.060000 0.011836" rpy="0.000000 0.000000 0.000000"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.261799" upper="0.349066" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Left_Hip_Yaw" type="revolute">
+    <parent link="base_link"/>
+    <child link="Yaw_L"/>
+    <origin xyz="-0.103104 0.060000 0.011836" rpy="0.000000 0.000000 0.000000"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.349066" upper="0.261799" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Rigid_14" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu"/>
+    <origin xyz="0.049483 0.000000 0.050407" rpy="2.137906 0.000000 1.570796"/>
+  </joint>
+
+  <joint name="Right_Hip_Roll" type="revolute">
+    <parent link="Yaw_R"/>
+    <child link="arm_right"/>
+    <origin xyz="0.018000 -0.012500 -0.054284" rpy="-1.570796 0.000000 1.570796"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.349066" upper="0.349066" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Left_Hip_Roll" type="revolute">
+    <parent link="Yaw_L"/>
+    <child link="arm_left"/>
+    <origin xyz="0.018000 0.012500 -0.054284" rpy="-1.570796 0.000000 1.570796"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.349066" upper="0.349066" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Right_Hip_Pitch" type="revolute">
+    <parent link="arm_right"/>
+    <child link="thigh_right"/>
+    <origin xyz="-0.069250 -0.001341 0.008647" rpy="3.141593 1.570796 0.000000"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-1.047198" upper="0.436332" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Left_Hip_Pitch" type="revolute">
+    <parent link="arm_left"/>
+    <child link="thigh_left"/>
+    <origin xyz="0.069250 -0.001341 0.008647" rpy="0.000000 1.570796 0.000000"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.436332" upper="1.047198" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Right_Knee" type="revolute">
+    <parent link="thigh_right"/>
+    <child link="shin_right"/>
+    <origin xyz="-0.078133 -0.078888 0.000000" rpy="0.000000 0.000000 0.000000"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.523599" upper="0.610865" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Left_Knee" type="revolute">
+    <parent link="thigh_left"/>
+    <child link="shin_left"/>
+    <origin xyz="-0.078133 0.078888 0.000000" rpy="3.141593 0.000000 0.000000"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.523599" upper="0.610865" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Right_Foot" type="revolute">
+    <parent link="shin_right"/>
+    <child link="foot_right"/>
+    <origin xyz="0.047092 -0.129387 0.001000" rpy="0.000000 0.000000 0.000000"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.261799" upper="0.523599" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <joint name="Left_Foot" type="revolute">
+    <parent link="shin_left"/>
+    <child link="foot_left"/>
+    <origin xyz="0.047092 -0.129387 -0.000500" rpy="0.000000 0.000000 0.000000"/>
+    <axis xyz="0.000000 0.000000 1.000000"/>
+    <limit lower="-0.261799" upper="0.523599" effort="100.0" velocity="1.00"/>
+  </joint>
+
+  <!-- ROS 2 control: generated generic system -->
+  <ros2_control name="rivetrobot_system" type="system">
+    <hardware>
+      <plugin>mock_components/GenericSystem</plugin>
+      <param name="cmd_topic">sim/rivetrobot_system/cmd</param>
+      <param name="state_topic">sim/rivetrobot_system/state</param>
+    </hardware>
+
+    <joint name="Left_Foot">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Left_Hip_Pitch">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Left_Hip_Roll">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Left_Hip_Yaw">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Left_Knee">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Right_Foot">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Right_Hip_Pitch">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Right_Hip_Roll">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Right_Hip_Yaw">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Right_Knee">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </ros2_control>
+
+</robot>

@@ -10,10 +10,12 @@ from mjlab.envs import mdp as envs_mdp
 from mjlab.envs.mdp.actions import JointPositionActionCfg
 from mjlab.managers.event_manager import EventTermCfg
 from mjlab.managers.reward_manager import RewardTermCfg
+from mjlab.managers.scene_entity_config import SceneEntityCfg
 from mjlab.sensor import ContactMatch, ContactSensorCfg, RayCastSensorCfg
 from mjlab.tasks.velocity import mdp
 from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
 from bdx_r_mjlab.tasks.velocity.velocity_env_cfg import make_velocity_env_cfg
+from bdx_r_mjlab.tasks.velocity.mdp.rewards import default_joint_pos_error
 
 
 def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
@@ -199,6 +201,18 @@ def bdxr_standing_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   twist_cmd.ranges.heading = None  # Must be None (not (0,0)) when heading_command=False
   twist_cmd.heading_command = False
   twist_cmd.rel_standing_envs = 1.0  # 100% standing envs
+
+  # Standing uses the configured default joint positions (the zero pose here)
+  # as its target. Make that target stricter and more influential than during
+  # walking, while the zero velocity commands reward remaining stationary.
+  cfg.rewards["pose"].weight = 10.0
+  cfg.rewards["pose"].params["std_standing"] = {".*": 0.02} # smaller std = stricter target
+  cfg.rewards["upright"].weight = 3.0
+  cfg.rewards["default_joint_pos"] = RewardTermCfg(
+    func=default_joint_pos_error,
+    weight=-25.0,
+    params={"asset_cfg": SceneEntityCfg("robot", joint_names=(".*",))},
+  )
 
   # Disable velocity curriculum — command is always zero.
   if "command_vel" in cfg.curriculum:

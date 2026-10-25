@@ -1,0 +1,168 @@
+<mujoco model="rivet">
+  <default>
+    <default class="robot">
+      <default class="motor">
+        <joint />
+        <motor />
+      </default>
+      <default class="visual">
+        <geom material="visualgeom" contype="0" conaffinity="0" group="2" />
+      </default>
+      <default class="collision">
+        <geom material="collision_material" condim="3" contype="0" conaffinity="1" priority="1" group="1" solref="0.005 1" solimp="0.99 0.999 1e-05" friction="1 0.01 0.01" />
+      </default>
+    </default>
+  </default>
+
+  <compiler angle="radian" />
+
+  <asset>
+    <material name="RS06" rgba="0.980 0.714 0.004 1.0" />
+    <material name="Steel" rgba="0.196 0.196 0.196 1.0" />
+    <material name="Aluminum_6061" rgba="0.961 0.961 0.965 1.0" />
+    <material name="Foot" rgba="0.314 0.314 0.314 1.0" />
+    <material name="RS02" rgba="0.537 0.537 0.537 1.0" />
+    <material name="default_material" rgba="0.7 0.7 0.7 1" />
+    <material name="collision_material" rgba="1.0 0.28 0.1 0.9" />
+    <mesh name="base_link_collision.stl" scale=".01 .01 .01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/base_link_collision.stl" />
+    <mesh name="base_link.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/base_link.stl" />
+    <mesh name="Yaw_R_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/Yaw_R_collision.stl" />
+    <mesh name="Yaw_R.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/Yaw_R.stl" />
+    <mesh name="arm_right_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/arm_right_collision.stl" />
+    <mesh name="arm_right.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/arm_right.stl" />
+    <mesh name="thigh_right_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/thigh_right_collision.stl" />
+    <mesh name="thigh_right.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/thigh_right.stl" />
+    <mesh name="shin_right_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/shin_right_collision.stl" />
+    <mesh name="shin_right.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/shin_right.stl" />
+    <mesh name="foot_right_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/foot_right_collision.stl" />
+    <mesh name="foot_right.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/foot_right.stl" />
+    <mesh name="Yaw_L_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/Yaw_L_collision.stl" />
+    <mesh name="Yaw_L.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/Yaw_L.stl" />
+    <mesh name="arm_left_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/arm_left_collision.stl" />
+    <mesh name="arm_left.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/arm_left.stl" />
+    <mesh name="thigh_left_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/thigh_left_collision.stl" />
+    <mesh name="thigh_left.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/thigh_left.stl" />
+    <mesh name="shin_left_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/shin_left_collision.stl" />
+    <mesh name="shin_left.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/shin_left.stl" />
+    <mesh name="foot_left_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/foot_left_collision.stl" />
+    <mesh name="foot_left.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/foot_left.stl" />
+    <mesh name="imu_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/imu_collision.stl" />
+    <mesh name="imu.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/imu.stl" />
+  </asset>
+
+  <worldbody>
+    <body name="base_link" pos="0.00000000 0.00000000 0.00048907" quat="1 0 0 0" childclass="robot">
+      <freejoint name="floating_base" />
+      <geom name="base_link_collision" pos="0.000000 0.000000 0.000000" quat="1.0 0.0 0.0 0.0" type="mesh" mesh="base_link_collision.stl" class="collision" />
+      <geom name="base_link_visual" pos="0.000000 0.000000 0.000000" quat="1.0 0.0 0.0 0.0" material="Steel" type="mesh" mesh="base_link.stl" class="visual" />
+      <body name="Yaw_R" pos="-0.103104 -0.060000 0.011836" quat="1.0 0.0 0.0 0.0">
+        <joint name="Right_Hip_Yaw" type="hinge" ref="0.0" class="motor" range="-0.261799 0.349066" axis="0.000000 0.000000 1.000000" />
+        <inertial pos="-0.006105 -0.012631 -0.053523" quat="1.0 0.0 0.0 0.0" mass="0.631727" diaginertia="0.0005220905 0.0003834018 0.0003746279" />
+        <geom name="Yaw_R_collision" pos="0.103104 0.050000 -0.011836" quat="1.0 0.0 0.0 0.0" type="mesh" mesh="Yaw_R_collision.stl" class="collision" />
+        <geom name="Yaw_R_visual" pos="0.103104 0.050000 -0.011836" quat="1.0 0.0 0.0 0.0" material="RS06" type="mesh" mesh="Yaw_R.stl" class="visual" />
+        <body name="arm_right" pos="0.018000 -0.012500 -0.054284" quat="0.5000001633974483 -0.4999999999999733 -0.49999983660255165 0.4999999999999733">
+          <joint name="Right_Hip_Roll" type="hinge" ref="0.0" class="motor" range="-0.349066 0.349066" axis="0.000000 0.000000 1.000000" />
+          <inertial pos="-0.029281 -0.000121 -0.002212" quat="1.0 0.0 0.0 0.0" mass="0.099578" diaginertia="2.392334e-05 9.735478e-05 0.0001054438" />
+          <geom name="arm_right_collision" pos="0.055661 -0.042448 -0.085104" quat="0.5000001633974483 0.4999999999999733 0.4999999999999733 -0.49999983660255165" type="mesh" mesh="arm_right_collision.stl" class="collision" />
+          <geom name="arm_right_visual" pos="0.055661 -0.042448 -0.085104" quat="0.5000001633974483 0.4999999999999733 0.4999999999999733 -0.49999983660255165" material="Aluminum_6061" type="mesh" mesh="arm_right.stl" class="visual" />
+          <body name="thigh_right" pos="-0.069250 -0.001341 0.008647" quat="-1.2247452309842457e-07 0.7071068967259713 -1.22474483074382e-07 -0.7071066656470838">
+            <joint name="Right_Hip_Pitch" type="hinge" ref="0.0" class="motor" range="-1.047198 0.436332" axis="0.000000 0.000000 1.000000" />
+            <inertial pos="-0.039031 -0.039274 0.023614" quat="1.0 0.0 0.0 0.0" mass="1.847482" diaginertia="0.004734522 0.004691757 0.008222514" />
+            <geom name="thigh_right_collision" pos="0.096867 0.040619 -0.124911" quat="0.7071068967259818 -0.7071066656470943 0.0 0.0" type="mesh" mesh="thigh_right_collision.stl" class="collision" />
+            <geom name="thigh_right_visual" pos="0.096867 0.040619 -0.124911" quat="0.7071068967259818 -0.7071066656470943 0.0 0.0" material="Aluminum_6061" type="mesh" mesh="thigh_right.stl" class="visual" />
+            <body name="shin_right" pos="-0.078133 -0.078888 0.000000" quat="1.0 0.0 0.0 0.0">
+              <joint name="Right_Knee" type="hinge" ref="0.0" class="motor" range="-0.523599 0.610865" axis="0.000000 0.000000 1.000000" />
+              <inertial pos="0.029011 -0.082760 -0.016712" quat="1.0 0.0 0.0 0.0" mass="0.708393" diaginertia="0.002861626 0.0006852746 0.003353418" />
+              <geom name="shin_right_collision" pos="0.175000 0.119506 -0.124911" quat="0.7071068967259818 -0.7071066656470943 0.0 0.0" type="mesh" mesh="shin_right_collision.stl" class="collision" />
+              <geom name="shin_right_visual" pos="0.175000 0.119506 -0.124911" quat="0.7071068967259818 -0.7071066656470943 0.0 0.0" material="RS02" type="mesh" mesh="shin_right.stl" class="visual" />
+              <body name="foot_right" pos="0.047092 -0.129387 0.001000" quat="1.0 0.0 0.0 0.0">
+                <joint name="Right_Ankle" type="hinge" ref="0.0" class="motor" range="-0.261799 0.523599" axis="0.000000 0.000000 1.000000" />
+                <inertial pos="0.025986 -0.038807 -0.001568" quat="1.0 0.0 0.0 0.0" mass="0.066062" diaginertia="5.107256e-05 0.0001533255 0.0001711682" />
+                <geom name="right_foot_collision1" pos="0.127907 0.248894 -0.125411" quat="0.7071068967259818 -0.7071066656470943 0.0 0.0" type="mesh" mesh="foot_right_collision.stl" class="collision" />
+                <geom name="foot_right_visual" pos="0.127907 0.248894 -0.125411" quat="0.7071068967259818 -0.7071066656470943 0.0 0.0" material="Foot" type="mesh" mesh="foot_right.stl" class="visual" />
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="Yaw_L" pos="-0.103104 0.060000 0.011836" quat="1.0 0.0 0.0 0.0">
+        <joint name="Left_Hip_Yaw" type="hinge" ref="0.0" class="motor" range="-0.349066 0.261799" axis="0.000000 0.000000 1.000000" />
+        <inertial pos="-0.006105 0.012232 -0.053523" quat="1.0 0.0 0.0 0.0" mass="0.631727" diaginertia="0.0005220559 0.0003834018 0.0003745933" />
+        <geom name="Yaw_L_collision" pos="0.103104 -0.050000 -0.011836" quat="1.0 0.0 0.0 0.0" type="mesh" mesh="Yaw_L_collision.stl" class="collision" />
+        <geom name="Yaw_L_visual" pos="0.103104 -0.050000 -0.011836" quat="1.0 0.0 0.0 0.0" material="RS06" type="mesh" mesh="Yaw_L.stl" class="visual" />
+        <body name="arm_left" pos="0.018000 0.012500 -0.054284" quat="0.5000001633974483 -0.4999999999999733 -0.49999983660255165 0.4999999999999733">
+          <joint name="Left_Hip_Roll" type="hinge" ref="0.0" class="motor" range="-0.349066 0.349066" axis="0.000000 0.000000 1.000000" />
+          <inertial pos="0.029282 -0.000121 -0.002212" quat="1.0 0.0 0.0 0.0" mass="0.099578" diaginertia="2.392344e-05 9.735515e-05 0.0001054441" />
+          <geom name="arm_left_collision" pos="-0.055661 -0.042448 -0.085104" quat="0.5000001633974483 -0.4999999999999733 0.4999999999999733 0.49999983660255165" type="mesh" mesh="arm_left_collision.stl" class="collision" />
+          <geom name="arm_left_visual" pos="-0.055661 -0.042448 -0.085104" quat="0.5000001633974483 -0.4999999999999733 0.4999999999999733 0.49999983660255165" material="Aluminum_6061" type="mesh" mesh="arm_left.stl" class="visual" />
+          <body name="thigh_left" pos="0.069250 -0.001341 0.008647" quat="0.7071068967259818 0.0 0.7071066656470943 0.0">
+            <joint name="Left_Hip_Pitch" type="hinge" ref="0.0" class="motor" range="-0.436332 1.047198" axis="0.000000 0.000000 1.000000" />
+            <inertial pos="-0.039031 0.039274 0.023614" quat="1.0 0.0 0.0 0.0" mass="1.847482" diaginertia="0.004734527 0.004691792 0.008222554" />
+            <geom name="thigh_left_collision" pos="0.096867 -0.040619 -0.124911" quat="0.7071068967259818 -0.7071066656470943 0.0 0.0" type="mesh" mesh="thigh_left_collision.stl" class="collision" />
+            <geom name="thigh_left_visual" pos="0.096867 -0.040619 -0.124911" quat="0.7071068967259818 -0.7071066656470943 0.0 0.0" material="Aluminum_6061" type="mesh" mesh="thigh_left.stl" class="visual" />
+            <body name="shin_left" pos="-0.078133 0.078888 0.000000" quat="-1.7320510330969933e-07 0.999999999999985 0.0 -0.0">
+              <joint name="Left_Knee" type="hinge" ref="0.0" class="motor" range="-0.523599 0.610865" axis="0.000000 0.000000 1.000000" />
+              <inertial pos="0.029011 -0.082760 0.016712" quat="1.0 0.0 0.0 0.0" mass="0.708394" diaginertia="0.002861628 0.0006852758 0.003353421" />
+              <geom name="shin_left_collision" pos="0.175000 0.119506 0.124911" quat="0.7071068967259818 0.7071066656470943 0.0 0.0" type="mesh" mesh="shin_left_collision.stl" class="collision" />
+              <geom name="shin_left_visual" pos="0.175000 0.119506 0.124911" quat="0.7071068967259818 0.7071066656470943 0.0 0.0" material="RS02" type="mesh" mesh="shin_left.stl" class="visual" />
+              <body name="foot_left" pos="0.047092 -0.129387 -0.000500" quat="1.0 0.0 0.0 0.0">
+                <joint name="Left_Ankle" type="hinge" ref="0.0" class="motor" range="-0.261799 0.523599" axis="0.000000 0.000000 1.000000" />
+                <inertial pos="0.025986 -0.038807 0.001568" quat="1.0 0.0 0.0 0.0" mass="0.066062" diaginertia="5.107256e-05 0.0001533255 0.0001711682" />
+                <geom name="left_foot_collision1" pos="0.127907 0.248894 0.125411" quat="0.7071068967259818 0.7071066656470943 0.0 0.0" type="mesh" mesh="foot_left_collision.stl" class="collision" />
+                <geom name="foot_left_visual" pos="0.127907 0.248894 0.125411" quat="0.7071068967259818 0.7071066656470943 0.0 0.0" material="Foot" type="mesh" mesh="foot_left.stl" class="visual" />
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="imu" pos="0.049483 0.000000 0.050407" quat="0.34014839486079723 0.6199187308599987 0.6199185282737542 0.34014828370205585">
+        <inertial pos="-0.000111 -0.000161 -0.004072" quat="1.0 0.0 0.0 0.0" mass="0.227379" diaginertia="3.181533e-05 0.0001625286 0.0001552163" />
+        <geom name="imu_collision" pos="0.000000 0.000000 0.000000" quat="1.0 0.0 0.0 0.0" type="mesh" mesh="imu_collision.stl" class="collision" />
+        <geom name="imu_visual" pos="0.000000 0.000000 0.000000" quat="1.0 0.0 0.0 0.0" material="Steel" type="mesh" mesh="imu.stl" class="visual" />
+        <site name="imu" pos="0 0 0" quat="1 0 0 0" />
+      </body>
+      <site name="base_link_site" pos="0 0 0" quat="1 0 0 0" />
+      <camera name="front_camera" mode="track" fovy="90.0" quat="4.329780281177467e-17 4.329780281177466e-17 0.7071067811865475 0.7071067811865476" pos="0.0 2.0 0.5" />
+      <camera name="side_camera" mode="track" fovy="90.0" quat="-0.5 -0.4999999999999999 0.5 0.5000000000000001" pos="-2.0 0.0 0.5" />
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor name="Right_Hip_Yaw_ctrl" joint="Right_Hip_Yaw" class="motor" />
+    <motor name="Right_Hip_Roll_ctrl" joint="Right_Hip_Roll" class="motor" />
+    <motor name="Right_Hip_Pitch_ctrl" joint="Right_Hip_Pitch" class="motor" />
+    <motor name="Right_Knee_ctrl" joint="Right_Knee" class="motor" />
+    <motor name="Right_Ankle_ctrl" joint="Right_Ankle" class="motor" />
+    <motor name="Left_Hip_Yaw_ctrl" joint="Left_Hip_Yaw" class="motor" />
+    <motor name="Left_Hip_Roll_ctrl" joint="Left_Hip_Roll" class="motor" />
+    <motor name="Left_Hip_Pitch_ctrl" joint="Left_Hip_Pitch" class="motor" />
+    <motor name="Left_Knee_ctrl" joint="Left_Knee" class="motor" />
+    <motor name="Left_Ankle_ctrl" joint="Left_Ankle" class="motor" />
+  </actuator>
+
+  <contact>
+    <exclude body1="base_link" body2="Yaw_R" />
+    <exclude body1="base_link" body2="Yaw_L" />
+    <exclude body1="base_link" body2="imu" />
+    <exclude body1="Yaw_R" body2="arm_right" />
+    <exclude body1="Yaw_L" body2="arm_left" />
+    <exclude body1="arm_right" body2="thigh_right" />
+    <exclude body1="arm_left" body2="thigh_left" />
+    <exclude body1="thigh_right" body2="shin_right" />
+    <exclude body1="thigh_left" body2="shin_left" />
+    <exclude body1="shin_right" body2="foot_right" />
+    <exclude body1="shin_left" body2="foot_left" />
+  </contact>
+
+  <sensor>
+    <gyro name="imu_ang_vel" site="imu" />
+    <velocimeter name="imu_lin_vel" site="imu" />
+    <accelerometer name="imu_lin_acc" site="imu" />
+    <subtreeangmom name="root_angmom" body="base_link" />
+    <framepos name="base_link_site_pos" objtype="site" objname="base_link_site" />
+    <framequat name="base_link_site_quat" objtype="site" objname="base_link_site" />
+    <framelinvel name="base_link_site_linvel" objtype="site" objname="base_link_site" />
+    <frameangvel name="base_link_site_angvel" objtype="site" objname="base_link_site" />
+    <velocimeter name="base_link_site_vel" site="base_link_site" />
+  </sensor>
+</mujoco>

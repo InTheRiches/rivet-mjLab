@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rivetrobot">
+
+  <!-- Materials (shared across all assemblies) -->
+  <material name="RS06">
+    <color rgba="0.980 0.714 0.004 1.0"/>
+  </material>
+  <material name="Steel">
+    <color rgba="0.196 0.196 0.196 1.0"/>
+  </material>
+  <material name="Aluminum_6061">
+    <color rgba="0.961 0.961 0.965 1.0"/>
+  </material>
+  <material name="Foot">
+    <color rgba="0.314 0.314 0.314 1.0"/>
+  </material>
+  <material name="RS02">
+    <color rgba="0.537 0.537 0.537 1.0"/>
+  </material>
+
+  <!-- Assembly includes -->
+  <xacro:include filename="$(find rivetrobot_description)/urdf/assemblies/UPPER_HOUS_ASM_1_ASM_2_ASM_1_ASM.urdf.xacro"/>
+  <xacro:include filename="$(find rivetrobot_description)/urdf/assemblies/rivetrobot.urdf.xacro"/>
+
+  <!-- Instantiate assemblies -->
+  <xacro:UPPER_HOUS_ASM_1_ASM_2_ASM_1_ASM prefix=""/>
+  <xacro:rivetrobot prefix=""/>
+
+  <!-- Mount joints (cross-assembly connections) -->
+  <!-- These define how assemblies connect to each other. -->
+  <!-- When swapping a dummy assembly with a real part, -->
+  <!-- update the include + macro call above, and adjust -->
+  <!-- parent/child link names in the mount joint below. -->
+
+  <joint name="Rigid_14" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu"/>
+    <origin xyz="0.049483 0.000000 0.050407" rpy="2.137906 0.000000 1.570796"/>
+  </joint>
+
+</robot>

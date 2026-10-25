@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="UPPER_HOUS_ASM_1_ASM_2_ASM_1_ASM_macro">
+
+  <xacro:macro name="UPPER_HOUS_ASM_1_ASM_2_ASM_1_ASM" params="prefix">
+
+    <!-- Links -->
+    <link name="${prefix}imu">
+      <inertial>
+        <origin xyz="-0.000111 -0.000161 -0.004072" rpy="0 0 0"/>
+        <mass value="0.227379"/>
+        <inertia ixx="3.181533e-05" ixy="1.204393e-07" ixz="-2.547203e-07"
+                 iyy="1.625286e-04" iyz="8.916707e-08" izz="1.552163e-04"/>
+      </inertial>
+      <visual>
+        <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+        <geometry>
+          <mesh filename="package://rivetrobot_description/meshes/UPPER_HOUS_ASM_1_ASM_2_ASM_1_ASM/imu.dae" scale="1 1 1"/>
+        </geometry>
+        <material name="Steel"/>
+      </visual>
+      <collision>
+        <origin xyz="0.000000 0.000000 0.000000" rpy="0.000000 0.000000 0.000000"/>
+        <geometry>
+          <mesh filename="package://rivetrobot_description/meshes/UPPER_HOUS_ASM_1_ASM_2_ASM_1_ASM/imu_collision.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
+    </link>
+
+  </xacro:macro>
+
+</robot>
