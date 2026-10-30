@@ -125,6 +125,18 @@ def body_angular_velocity_penalty(
   return torch.sum(torch.square(ang_vel_xy), dim=1)
 
 
+def base_angular_velocity_penalty(
+  env: ManagerBasedRlEnv,
+  asset_cfg: SceneEntityCfg = _DEFAULT_ASSET_CFG,
+) -> torch.Tensor:
+  """Penalize all body angular velocities (roll, pitch, and yaw) for standing/crouching."""
+  asset: Entity = env.scene[asset_cfg.name]
+  ang_vel = asset.data.body_link_ang_vel_w[:, asset_cfg.body_ids, :]
+  ang_vel = ang_vel.squeeze(1)
+  return torch.sum(torch.square(ang_vel), dim=1)
+
+
+
 def body_lateral_velocity_penalty(
   env: ManagerBasedRlEnv,
   asset_cfg: SceneEntityCfg = _DEFAULT_ASSET_CFG,
@@ -429,3 +441,116 @@ def default_joint_pos_error(
   joint_pos = asset.data.joint_pos[:, asset_cfg.joint_ids]
   target = default_joint_pos[:, asset_cfg.joint_ids]
   return torch.mean(torch.square(joint_pos - target), dim=1)
+
+
+class commanded_crouch_posture:
+  """Penalize deviation from command-dependent target posture.
+
+  When crouch command is 0.0 (standing): target is standing default joint pos.
+  When crouch command is 1.0 (crouching): target is crouch joint pos.
+  Interpolates linearly:
+    target = (1 - c) * stand_pose + c * crouch_pose
+
+  Reward is exp(-mean(error² / std²)).
+  """
+
+  def __init__(self, cfg: RewardTermCfg, env: ManagerBasedRlEnv):
+    asset: Entity = env.scene[cfg.params["asset_cfg"].name]
+    self.asset_cfg = cfg.params["asset_cfg"]
+    _, joint_names = asset.find_joints(self.asset_cfg.joint_names)
+
+    stand_dict = cfg.params["stand_pose"]
+    crouch_dict = cfg.params["crouch_pose"]
+    std_dict = cfg.params.get("std", {".*": 0.03})
+
+    _, _, stand_vals = resolve_matching_names_values(
+      data=stand_dict, list_of_strings=joint_names
+    )
+    _, _, crouch_vals = resolve_matching_names_values(
+      data=crouch_dict, list_of_strings=joint_names
+    )
+    _, _, std_vals = resolve_matching_names_values(
+      data=std_dict, list_of_strings=joint_names
+    )
+
+    self.stand_pose = torch.tensor(stand_vals, device=env.device, dtype=torch.float32)
+    self.crouch_pose = torch.tensor(crouch_vals, device=env.device, dtype=torch.float32)
+    self.std = torch.tensor(std_vals, device=env.device, dtype=torch.float32)
+
+  def __call__(
+    self,
+    env: ManagerBasedRlEnv,
+    command_name: str,
+    asset_cfg: SceneEntityCfg,
+    stand_pose: dict[str, float],
+    crouch_pose: dict[str, float],
+    std: dict[str, float] | None = None,
+  ) -> torch.Tensor:
+    del stand_pose, crouch_pose, std
+    asset: Entity = env.scene[asset_cfg.name]
+    command = env.command_manager.get_command(command_name)
+    assert command is not None
+    c = command[:, 0:1]  # [B, 1]
+    target = (1.0 - c) * self.stand_pose + c * self.crouch_pose  # [B, num_joints]
+    current = asset.data.joint_pos[:, asset_cfg.joint_ids]
+    error_sq = torch.square(current - target)
+    return torch.exp(-torch.mean(error_sq / (self.std**2), dim=1))
+
+
+class commanded_crouch_joint_pos_error:
+  """Penalize mean squared error from command-dependent target posture."""
+
+  def __init__(self, cfg: RewardTermCfg, env: ManagerBasedRlEnv):
+    asset: Entity = env.scene[cfg.params["asset_cfg"].name]
+    self.asset_cfg = cfg.params["asset_cfg"]
+    _, joint_names = asset.find_joints(self.asset_cfg.joint_names)
+
+    stand_dict = cfg.params["stand_pose"]
+    crouch_dict = cfg.params["crouch_pose"]
+
+    _, _, stand_vals = resolve_matching_names_values(
+      data=stand_dict, list_of_strings=joint_names
+    )
+    _, _, crouch_vals = resolve_matching_names_values(
+      data=crouch_dict, list_of_strings=joint_names
+    )
+
+    self.stand_pose = torch.tensor(stand_vals, device=env.device, dtype=torch.float32)
+    self.crouch_pose = torch.tensor(crouch_vals, device=env.device, dtype=torch.float32)
+
+  def __call__(
+    self,
+    env: ManagerBasedRlEnv,
+    command_name: str,
+    asset_cfg: SceneEntityCfg,
+    stand_pose: dict[str, float],
+    crouch_pose: dict[str, float],
+  ) -> torch.Tensor:
+    del stand_pose, crouch_pose
+    asset: Entity = env.scene[asset_cfg.name]
+    command = env.command_manager.get_command(command_name)
+    assert command is not None
+    c = command[:, 0:1]  # [B, 1]
+    target = (1.0 - c) * self.stand_pose + c * self.crouch_pose
+    current = asset.data.joint_pos[:, asset_cfg.joint_ids]
+    return torch.mean(torch.square(current - target), dim=1)
+
+
+def track_base_height_command(
+  env: ManagerBasedRlEnv,
+  command_name: str,
+  stand_height: float,
+  crouch_height: float,
+  std: float = 0.03,
+  asset_cfg: SceneEntityCfg = _DEFAULT_ASSET_CFG,
+) -> torch.Tensor:
+  """Reward tracking the base height corresponding to the crouch command."""
+  asset: Entity = env.scene[asset_cfg.name]
+  command = env.command_manager.get_command(command_name)
+  assert command is not None
+  c = command[:, 0]  # [B]
+  target_height = (1.0 - c) * stand_height + c * crouch_height
+  actual_height = asset.data.root_link_pos_w[:, 2]
+  height_error_sq = torch.square(actual_height - target_height)
+  return torch.exp(-height_error_sq / (std**2))
+

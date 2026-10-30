@@ -2,13 +2,30 @@
 
 from mjlab.envs import ManagerBasedRlEnvCfg
 from mjlab.envs.mdp.actions import JointPositionActionCfg
+from mjlab.managers.observation_manager import ObservationTermCfg
 from mjlab.managers.reward_manager import RewardTermCfg
 from mjlab.managers.scene_entity_config import SceneEntityCfg
 from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
 
-from bdx_r_mjlab.robots import RIVET_ACTION_SCALE, get_rivet_robot_cfg
-from bdx_r_mjlab.tasks.velocity.mdp.rewards import default_joint_pos_error
+from bdx_r_mjlab.robots import (
+  RIVET_ACTION_SCALE,
+  RIVET_CROUCH_HEIGHT,
+  RIVET_CROUCH_JOINT_POS,
+  RIVET_STAND_HEIGHT,
+  RIVET_STAND_JOINT_POS,
+  get_rivet_robot_cfg,
+)
+from bdx_r_mjlab.tasks.velocity import mdp
+from bdx_r_mjlab.tasks.velocity.mdp.crouch_command import CrouchCommandCfg
+from bdx_r_mjlab.tasks.velocity.mdp.rewards import (
+  base_angular_velocity_penalty,
+  commanded_crouch_joint_pos_error,
+  commanded_crouch_posture,
+  default_joint_pos_error,
+)
 from bdx_r_mjlab.tasks.velocity.velocity_env_cfg import make_velocity_env_cfg
+
+
 
 
 def rivet_standing_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
@@ -90,3 +107,70 @@ def rivet_standing_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     cfg.events.pop("push_robot", None)
 
   return cfg
+
+
+def rivet_crouching_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
+  """Create a standing and crouching task for Rivet.
+
+  The robot is commanded to either stand upright or crouch down a few inches,
+  learning to smoothly lower down and raise back up on command.
+  """
+  cfg = rivet_standing_env_cfg(play=play)
+
+  # Add crouch command (0.0 = stand, 1.0 = crouch)
+  cfg.commands["crouch"] = CrouchCommandCfg(
+    resampling_time_range=(3.0, 6.0) if not play else (4.0, 4.0),
+    crouch_prob=0.5,
+    play_mode=play,
+  )
+
+  # Add crouch command observation to both actor and critic
+  cfg.observations["actor"].terms["crouch"] = ObservationTermCfg(
+    func=mdp.generated_commands,
+    params={"command_name": "crouch"},
+  )
+  cfg.observations["critic"].terms["crouch"] = ObservationTermCfg(
+    func=mdp.generated_commands,
+    params={"command_name": "crouch"},
+  )
+
+  # Command-dependent posture reward: rewards holding standing pose when crouch=0,
+  # and holding crouch pose when crouch=1.
+  # Strict std on yaw and roll prevents any twisting/torquing during crouch.
+  cfg.rewards["pose"] = RewardTermCfg(
+    func=commanded_crouch_posture,
+    weight=10.0,
+    params={
+      "asset_cfg": SceneEntityCfg("robot", joint_names=(".*",)),
+      "command_name": "crouch",
+      "stand_pose": RIVET_STAND_JOINT_POS,
+      "crouch_pose": RIVET_CROUCH_JOINT_POS,
+      "std": {".*": 0.03}
+    },
+  )
+
+  # Command-dependent joint position error penalty: penalizes deviation from target pose
+  cfg.rewards["default_joint_pos"] = RewardTermCfg(
+    func=commanded_crouch_joint_pos_error,
+    weight=-25.0,
+    params={
+      "asset_cfg": SceneEntityCfg("robot", joint_names=(".*",)),
+      "command_name": "crouch",
+      "stand_pose": RIVET_STAND_JOINT_POS,
+      "crouch_pose": RIVET_CROUCH_JOINT_POS,
+    },
+  )
+
+  # Penalize all base angular velocity (roll, pitch, AND yaw) to stop torquing
+  cfg.rewards["body_ang_vel"] = RewardTermCfg(
+    func=base_angular_velocity_penalty,
+    weight=-0.1,
+    params={"asset_cfg": SceneEntityCfg("robot", body_names=("base_link",))},
+  )
+
+  # Slightly higher action rate penalty to encourage smooth, non-jerky transitions
+  cfg.rewards["action_rate_l2"].weight = -0.2
+
+  return cfg
+
+

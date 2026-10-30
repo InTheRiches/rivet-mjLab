@@ -14,7 +14,7 @@
     </default>
   </default>
 
-  <compiler angle="radian" />
+  <compiler angle="radian" meshdir="../urdf/meshes" />
 
   <asset>
     <material name="RS06" rgba="0.980 0.714 0.004 1.0" />
@@ -24,30 +24,30 @@
     <material name="RS02" rgba="0.537 0.537 0.537 1.0" />
     <material name="default_material" rgba="0.7 0.7 0.7 1" />
     <material name="collision_material" rgba="1.0 0.28 0.1 0.9" />
-    <mesh name="base_link_collision.stl" scale=".01 .01 .01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/base_link_collision.stl" />
-    <mesh name="base_link.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/base_link.stl" />
-    <mesh name="Yaw_R_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/Yaw_R_collision.stl" />
-    <mesh name="Yaw_R.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/Yaw_R.stl" />
-    <mesh name="arm_right_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/arm_right_collision.stl" />
-    <mesh name="arm_right.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/arm_right.stl" />
-    <mesh name="thigh_right_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/thigh_right_collision.stl" />
-    <mesh name="thigh_right.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/thigh_right.stl" />
-    <mesh name="shin_right_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/shin_right_collision.stl" />
-    <mesh name="shin_right.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/shin_right.stl" />
-    <mesh name="foot_right_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/foot_right_collision.stl" />
-    <mesh name="foot_right.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/foot_right.stl" />
-    <mesh name="Yaw_L_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/Yaw_L_collision.stl" />
-    <mesh name="Yaw_L.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/Yaw_L.stl" />
-    <mesh name="arm_left_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/arm_left_collision.stl" />
-    <mesh name="arm_left.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/arm_left.stl" />
-    <mesh name="thigh_left_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/thigh_left_collision.stl" />
-    <mesh name="thigh_left.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/thigh_left.stl" />
-    <mesh name="shin_left_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/shin_left_collision.stl" />
-    <mesh name="shin_left.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/shin_left.stl" />
-    <mesh name="foot_left_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/foot_left_collision.stl" />
-    <mesh name="foot_left.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/foot_left.stl" />
-    <mesh name="imu_collision.stl" scale="0.01 0.01 0.01" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/imu_collision.stl" />
-    <mesh name="imu.stl" scale="0.001 0.001 0.001" file="/Users/haydenwilliams/Documents/Echo/BDX-R-MjLab/src/bdx_r_mjlab/robots/bdxr/urdf/meshes/imu.stl" />
+    <mesh name="base_link_collision.stl" scale=".01 .01 .01" file="base_link_collision.stl" />
+    <mesh name="base_link.stl" scale="0.001 0.001 0.001" file="base_link.stl" />
+    <mesh name="Yaw_R_collision.stl" scale="0.01 0.01 0.01" file="Yaw_R_collision.stl" />
+    <mesh name="Yaw_R.stl" scale="0.001 0.001 0.001" file="Yaw_R.stl" />
+    <mesh name="arm_right_collision.stl" scale="0.01 0.01 0.01" file="arm_right_collision.stl" />
+    <mesh name="arm_right.stl" scale="0.001 0.001 0.001" file="arm_right.stl" />
+    <mesh name="thigh_right_collision.stl" scale="0.01 0.01 0.01" file="thigh_right_collision.stl" />
+    <mesh name="thigh_right.stl" scale="0.001 0.001 0.001" file="thigh_right.stl" />
+    <mesh name="shin_right_collision.stl" scale="0.01 0.01 0.01" file="shin_right_collision.stl" />
+    <mesh name="shin_right.stl" scale="0.001 0.001 0.001" file="shin_right.stl" />
+    <mesh name="foot_right_collision.stl" scale="0.01 0.01 0.01" file="foot_right_collision.stl" />
+    <mesh name="foot_right.stl" scale="0.001 0.001 0.001" file="foot_right.stl" />
+    <mesh name="Yaw_L_collision.stl" scale="0.01 0.01 0.01" file="Yaw_L_collision.stl" />
+    <mesh name="Yaw_L.stl" scale="0.001 0.001 0.001" file="Yaw_L.stl" />
+    <mesh name="arm_left_collision.stl" scale="0.01 0.01 0.01" file="arm_left_collision.stl" />
+    <mesh name="arm_left.stl" scale="0.001 0.001 0.001" file="arm_left.stl" />
+    <mesh name="thigh_left_collision.stl" scale="0.01 0.01 0.01" file="thigh_left_collision.stl" />
+    <mesh name="thigh_left.stl" scale="0.001 0.001 0.001" file="thigh_left.stl" />
+    <mesh name="shin_left_collision.stl" scale="0.01 0.01 0.01" file="shin_left_collision.stl" />
+    <mesh name="shin_left.stl" scale="0.001 0.001 0.001" file="shin_left.stl" />
+    <mesh name="foot_left_collision.stl" scale="0.01 0.01 0.01" file="foot_left_collision.stl" />
+    <mesh name="foot_left.stl" scale="0.001 0.001 0.001" file="foot_left.stl" />
+    <mesh name="imu_collision.stl" scale="0.01 0.01 0.01" file="imu_collision.stl" />
+    <mesh name="imu.stl" scale="0.001 0.001 0.001" file="imu.stl" />
   </asset>
 
   <worldbody>

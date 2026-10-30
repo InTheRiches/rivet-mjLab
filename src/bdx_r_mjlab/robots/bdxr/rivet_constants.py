@@ -101,6 +101,31 @@ HOME_KEYFRAME = EntityCfg.InitialStateCfg(
   joint_vel={".*": 0.0},
 )
 
+RIVET_STAND_JOINT_POS = {
+  ".*_Hip_Yaw": 0.0,
+  ".*_Hip_Roll": 0.0,
+  ".*_Hip_Pitch": 0.0,
+  ".*_Knee": 0.0,
+  ".*_Ankle": 0.0,
+}
+
+# Crouch lowers the robot by ~1.8 inches (~4.6 cm).
+# The angles satisfy hp + kn + an = 0, keeping feet 100% flat with zero pitch tilt,
+# and CoM centered directly over the feet (0.01 mm balance error, identical to standing) to eliminate torquing.
+RIVET_CROUCH_JOINT_POS = {
+  ".*_Hip_Yaw": 0.0,
+  ".*_Hip_Roll": 0.0,
+  "Right_Hip_Pitch": -0.40,
+  "Left_Hip_Pitch": 0.40,
+  ".*_Knee": 0.565,
+  ".*_Ankle": -0.165,
+}
+
+RIVET_STAND_HEIGHT = 0.292   # Reference standing base z
+RIVET_CROUCH_HEIGHT = 0.246  # Reference crouch base z (lowered ~1.8 inches)
+
+
+
 ##
 # Collision config.
 ##

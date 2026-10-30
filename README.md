@@ -36,19 +36,41 @@ uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Legs --agent zero # send zero action
 uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Legs --agent random # send random actions to the robot
 ```
 
-### Velocity Tracking
+### Standing & Crouching Training (Rivet)
 
-Train the policy.
-
-```bash
-uv run bdx_r_train Mjlab-Velocity-Flat-BDX-R-Legs --env.scene.num-envs 4096
-```
-
-Evaluate the policy.
+Train the standing policy:
 
 ```bash
-uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Legs-Play --wandb-run-path your-org//run-id
+WANDB_MODE=disabled uv run \
+  bdx_r_train Mjlab-Standing-Rivet \
+  --env.scene.num-envs 32 \
+  --agent.max-iterations 300
 ```
+
+Train the crouching policy (learns to lower down on command and raise back up):
+
+```bash
+WANDB_MODE=disabled uv run \
+  bdx_r_train Mjlab-Crouching-Rivet \
+  --env.scene.num-envs 32 \
+  --agent.max-iterations 300
+```
+
+Evaluate / play the crouching policy:
+
+```bash
+WANDB_MODE=disabled uv run mjpython -m bdx_r_mjlab.scripts.play \
+  Mjlab-Crouching-Rivet \
+  --checkpoint-file logs/rsl_rl/rivet_crouching/<run_dir>/model_XXXX.pt \
+  --viewer native
+```
+
+> [!TIP]
+> **Interactive Crouch Command**:
+> - When playing, the environment automatically alternates between standing and crouching every 4 seconds.
+> - In `--viewer native`, press **`C`** on your keyboard at any time to toggle between crouching and raising back up.
+> - In `--viewer viser`, click the **"Toggle Crouch (Stand / Crouch)"** GUI button.
+
 
 ## 🎯 Roadmap
 

@@ -203,11 +203,26 @@ def run_play(task_id: str, cfg: PlayConfig):
     resolved_viewer = cfg.viewer
 
   if resolved_viewer == "native":
-    NativeMujocoViewer(env, policy).run()
+    def key_callback(key: int) -> None:
+      # Key 'C' (ASCII 67 or 99) toggles crouch command if available
+      if key in (67, 99):
+        try:
+          cmd_mgr = getattr(env.unwrapped, "command_manager", None)
+          if cmd_mgr is not None and "crouch" in cmd_mgr._terms:
+            crouch_term = cmd_mgr.get_term("crouch")
+            if hasattr(crouch_term, "toggle"):
+              val = crouch_term.toggle()
+              state = "CROUCH" if val > 0.5 else "STAND"
+              print(f"[INTERACTIVE]: Commanded robot to {state} (value: {val:.1f})")
+        except Exception as e:
+          print(f"[WARN] Failed to toggle crouch: {e}")
+
+    NativeMujocoViewer(env, policy, key_callback=key_callback).run()
   elif resolved_viewer == "viser":
     ViserPlayViewer(env, policy).run()
   else:
     raise RuntimeError(f"Unsupported viewer backend: {resolved_viewer}")
+
 
   env.close()
 
