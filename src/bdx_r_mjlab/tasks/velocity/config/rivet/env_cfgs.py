@@ -5,13 +5,12 @@ from mjlab.envs.mdp.actions import JointPositionActionCfg
 from mjlab.managers.observation_manager import ObservationTermCfg
 from mjlab.managers.reward_manager import RewardTermCfg
 from mjlab.managers.scene_entity_config import SceneEntityCfg
+from mjlab.sensor import ContactMatch, ContactSensorCfg
 from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
 
 from bdx_r_mjlab.robots import (
   RIVET_ACTION_SCALE,
-  RIVET_CROUCH_HEIGHT,
   RIVET_CROUCH_JOINT_POS,
-  RIVET_STAND_HEIGHT,
   RIVET_STAND_JOINT_POS,
   get_rivet_robot_cfg,
 )
@@ -23,6 +22,7 @@ from bdx_r_mjlab.tasks.velocity.mdp.rewards import (
   commanded_crouch_posture,
   default_joint_pos_error,
 )
+from bdx_r_mjlab.tasks.velocity.mdp.weight_shift_command import WeightShiftCommandCfg
 from bdx_r_mjlab.tasks.velocity.velocity_env_cfg import make_velocity_env_cfg
 
 
@@ -174,3 +174,70 @@ def rivet_crouching_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   return cfg
 
 
+def rivet_weight_shift_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
+  """Create a commanded left-center-right weight-shifting task."""
+  cfg = rivet_standing_env_cfg(play=play)
+  cfg.commands["weight_shift"] = WeightShiftCommandCfg(
+    resampling_time_range=(2.0, 4.0) if not play else (3.0, 3.0),
+  )
+
+  left_contact = ContactSensorCfg(
+    name="left_foot_ground_contact",
+    primary=ContactMatch(mode="subtree", pattern="foot_left", entity="robot"),
+    secondary=ContactMatch(mode="body", pattern="terrain"),
+    fields=("force",),
+    reduce="netforce",
+    num_slots=1,
+  )
+  right_contact = ContactSensorCfg(
+    name="right_foot_ground_contact",
+    primary=ContactMatch(mode="subtree", pattern="foot_right", entity="robot"),
+    secondary=ContactMatch(mode="body", pattern="terrain"),
+    fields=("force",),
+    reduce="netforce",
+    num_slots=1,
+  )
+  cfg.scene.sensors = (left_contact, right_contact)
+
+  for group_name in ("actor", "critic"):
+    cfg.observations[group_name].terms["weight_shift"] = ObservationTermCfg(
+      func=mdp.generated_commands,
+      params={"command_name": "weight_shift"},
+    )
+
+  cfg.rewards["weight_shift_contact"] = RewardTermCfg(
+    func=mdp.weight_shift_contact,
+    weight=5.0,
+    params={
+      "command_name": "weight_shift",
+      "left_sensor_name": left_contact.name,
+      "right_sensor_name": right_contact.name,
+      "target_scale": 0.85,
+      "contact_min_force": 2.0,
+      "std": 0.1,
+    },
+  )
+  cfg.rewards["weight_shift_roll"] = RewardTermCfg(
+    func=mdp.weight_shift_roll,
+    weight=5.0,
+    params={
+      "command_name": "weight_shift",
+      "asset_cfg": SceneEntityCfg("robot", body_names=("base_link",)),
+      "roll_scale": 0.35,
+      "std": 0.08,
+    },
+  )
+  # The shared standing task strongly favors the default joint pose and flat
+  # orientation. Relax those terms here so a commanded lean is achievable.
+  cfg.rewards["pose"].weight = 0.25
+  cfg.rewards["pose"].params["std_standing"] = {".*": 0.12}
+  cfg.rewards["pose"].params["std_walking"] = {".*": 0.12}
+  cfg.rewards["pose"].params["std_running"] = {".*": 0.12}
+  cfg.rewards["upright"].weight = 0.35
+  cfg.rewards["body_ang_vel"] = RewardTermCfg(
+    func=mdp.body_angular_velocity_penalty,
+    weight=-0.15,
+    params={"asset_cfg": SceneEntityCfg("robot", body_names=("base_link",))},
+  )
+  cfg.rewards["action_rate_l2"].weight = -0.15
+  return cfg

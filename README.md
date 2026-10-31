@@ -71,16 +71,36 @@ WANDB_MODE=disabled uv run mjpython -m bdx_r_mjlab.scripts.play \
 > - In `--viewer native`, press **`C`** on your keyboard at any time to toggle between crouching and raising back up.
 > - In `--viewer viser`, click the **"Toggle Crouch (Stand / Crouch)"** GUI button.
 
+Train the commanded weight-shift policy (left foot, center, right foot, center):
+
+```bash
+WANDB_MODE=disabled uv run \
+  bdx_r_train Mjlab-Weight-Shift-Rivet \
+  --env.scene.num-envs 32 \
+  --agent.max-iterations 30000
+```
+
+Evaluate the weight-shift policy:
+
+```bash
+WANDB_MODE=disabled uv run mjpython -m bdx_r_mjlab.scripts.play \
+  Mjlab-Weight-Shift-Rivet \
+  --checkpoint-file logs/rsl_rl/rivet_weight_shift/<run_dir>/model_XXXX.pt \
+  --viewer native
+```
+
+The weight-shift command is automatically sequenced during training and can be
+set interactively in the Viser viewer from `-1` (left) through `0` (center) to
+`+1` (right).
+
 
 ## 🎯 Roadmap
 
-- [ ] Use IMU for observations
-- [ ] Use simplified meshes for collisions
+- [x] Use IMU for observations
+- [x] Use simplified meshes for collisions
 - [ ] Deploy the policy on real robot
 - [ ] Use rough terrains
 - [ ] Add a head to the robot
-
-Check [here](https://github.com/BDX-R) for the general roadmap of the project!
 
 ## 🛠️ Contributing
 

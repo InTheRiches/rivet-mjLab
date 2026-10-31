@@ -6,3 +6,5 @@ from .rewards import *  # noqa: F403
 from .terminations import *  # noqa: F403
 from .velocity_command import *  # noqa: F403
 from .crouch_command import *  # noqa: F403
+from .weight_shift_command import *  # noqa: F403
+from .weight_shift_rewards import *  # noqa: F403
